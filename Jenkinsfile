@@ -1,26 +1,28 @@
 pipeline {
     agent any
-   
+    
   environment {
         TIME_ZONE = 'Asia/Seoul'
-       
+        
         // GitHub 계정정보. 본인껄로 넣으세요!!
         GIT_TARGET_BRANCH = 'main'
         GIT_REPOSITORY_URL = 'https://github.com/tonyjung-1219/fast'
         GIT_CREDENTIONALS_ID = 'git_cre'
-
+        
+        GIT_EMAIL = 'tonyjung1219@naver.com'
+        GIT_NAME = 'tonyjung1219'
+        GIT_REPOSITORY_DEP = 'git@github.com:tonyjung-1219/deployment.git'
 
         // AWS ECR 정보. 본인껄로 넣으세요!!
         AWS_ECR_CREDENTIAL_ID = 'aws_cre'
         AWS_ECR_URI = '879405774439.dkr.ecr.ap-northeast-2.amazonaws.com' // 레지스트리주소
         AWS_ECR_IMAGE_NAME = 'fast' // 레포지토리이름.
         AWS_REGION = 'ap-northeast-2'
-       
+        
     }
 
-stages {
+    stages {
         // 첫번째 스테이지 : 초기화.
-
 
         stage('1.init') {
             steps {
@@ -29,9 +31,7 @@ stages {
             }
         }
 
-
         // 두번째 스테이지 : 소스코드 클론
-
 
         stage('2.Cloning Repository') {
             steps {
@@ -40,12 +40,10 @@ stages {
                     credentialsId: "${GIT_CREDENTIONALS_ID}",
                     url: "${GIT_REPOSITORY_URL}"
 
-
                 // 깃플러그인 설치하면 마치 함수쓰듯 사용가능.
             }
-       
+        
         }
-
 
         stage('3.Build Docker Image') {
             steps {
@@ -59,8 +57,6 @@ stages {
                 // BUILD_NUMBER = 젠킨스가 제공해주는 변수.
             }
         }
-
-
 
 
         stage('4.Push to ECR') {
@@ -96,11 +92,9 @@ stages {
                         '''
                     }
 
-
                 }                
             }
         }
-
 
         stage('5.EKS manifest file update') {
             steps {
@@ -119,7 +113,6 @@ stages {
                     '''
                 }
 
-
             }
             post {
                 failure {
@@ -130,5 +123,10 @@ stages {
                 }
             }
         }
+
+
+
+
+
     }
 }
