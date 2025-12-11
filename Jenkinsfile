@@ -11,7 +11,7 @@ pipeline {
         
         GIT_EMAIL = 'tonyjung1219@naver.com'
         GIT_NAME = 'tonyjung1219'
-        GIT_REPOSITORY_DEP = 'https://github.com/tonyjung-1219/deployment.git'
+        GIT_REPOSITORY_DEP = 'git@github.com:tonyjung-1219/deployment.git'
 
         // AWS ECR 정보. 본인껄로 넣으세요!!
         AWS_ECR_CREDENTIAL_ID = 'aws_cre'
